@@ -11,8 +11,8 @@ import coco
 import utils
 import model as modellib
 import visualize
-
 %matplotlib inline 
+
 
 # Root directory of the project
 ROOT_DIR = os.getcwd()
