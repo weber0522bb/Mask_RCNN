@@ -73,7 +73,7 @@ class CocoConfig(Config):
     IMAGES_PER_GPU = 2
 
     # Uncomment to train on 8 GPUs (default is 1)
-    # GPU_COUNT = 8
+    GPU_COUNT = 2
 
     # Number of classes (including background)
     NUM_CLASSES = 1 + 80  # COCO has 80 classes
@@ -88,23 +88,23 @@ class CocoDataset(utils.Dataset):
                   class_map=None, return_coco=False):
         """Load a subset of the COCO dataset.
         dataset_dir: The root directory of the COCO dataset.
-        subset: What to load (train, val, minival, val35k)
+        subset: What to load (train, val)
         class_ids: If provided, only loads images that have the given classes.
         class_map: TODO: Not implemented yet. Supports maping classes from
             different datasets to the same class ID.
         return_coco: If True, returns the COCO object.
         """
         # Path
-        image_dir = os.path.join(dataset_dir, "train2014" if subset == "train"
-                                 else "val2014")
+        image_dir = os.path.join(dataset_dir, "train2017" if subset == "train"
+                                 else "val2017")
 
         # Create COCO object
         json_path_dict = {
-            "train": "annotations/instances_train2014.json",
-            "val": "annotations/instances_val2014.json",
-            "minival": "annotations/instances_minival2014.json",
-            "val35k": "annotations/instances_valminusminival2014.json",
+            "train": "annotations/instances_train2017.json",
+            "val": "annotations/instances_val2017.json",
         }
+        # "minival": "annotations/instances_minival2014.json",
+        # "val35k": "annotations/instances_valminusminival2014.json",
         coco = COCO(os.path.join(dataset_dir, json_path_dict[subset]))
 
         # Load all classes or a subset?
@@ -388,12 +388,12 @@ if __name__ == '__main__':
         # validation set, as as in the Mask RCNN paper.
         dataset_train = CocoDataset()
         dataset_train.load_coco(args.dataset, "train")
-        dataset_train.load_coco(args.dataset, "val35k")
+        dataset_train.load_coco(args.dataset, "val")
         dataset_train.prepare()
 
         # Validation dataset
         dataset_val = CocoDataset()
-        dataset_val.load_coco(args.dataset, "minival")
+        dataset_val.load_coco(args.dataset, "val")
         dataset_val.prepare()
 
         # *** This training schedule is an example. Update to your needs ***
@@ -424,7 +424,7 @@ if __name__ == '__main__':
     elif args.command == "evaluate":
         # Validation dataset
         dataset_val = CocoDataset()
-        coco = dataset_val.load_coco(args.dataset, "minival", return_coco=True)
+        coco = dataset_val.load_coco(args.dataset, "val", return_coco=True)
         dataset_val.prepare()
         print("Running COCO evaluation on {} images.".format(args.limit))
         evaluate_coco(model, dataset_val, coco, "bbox", limit=int(args.limit))
