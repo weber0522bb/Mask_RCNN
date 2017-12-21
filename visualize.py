@@ -13,14 +13,18 @@ import itertools
 import colorsys
 import numpy as np
 from skimage.measure import find_contours
+import matplotlib
+matplotlib.use('agg')
 import matplotlib.pyplot as plt
+plt.switch_backend('agg')
 import matplotlib.patches as patches
 import matplotlib.lines as lines
 from matplotlib.patches import Polygon
 import IPython.display
-
+from skimage import io
+import math
 import utils
-
+import scipy.misc
 
 ############################################################
 #  Visualization
@@ -93,16 +97,16 @@ def display_instances(image, boxes, masks, class_ids, class_names,
         assert boxes.shape[0] == masks.shape[-1] == class_ids.shape[0]
 
     if not fig:
-        fig = plt.figure(figsize=figsize)
+        f,fig = plt.subplots(1,figsize=figsize)
 
     # Generate random colors
     colors = random_colors(N)
 
     # Show area outside image boundaries.
     height, width = image.shape[:2]
-    fig.add_axes(-10, -10, width+20, height+20)
+    #fig.add_axes(-10, -10, width+20, height+20)
     #fig.axis('off')
-    fig.title(title)
+    #fig.set_label(title)
 
     masked_image = image.astype(np.uint32).copy()
     for i in range(N):
@@ -143,6 +147,8 @@ def display_instances(image, boxes, masks, class_ids, class_names,
             p = Polygon(verts, facecolor="none", edgecolor=color)
             fig.add_patch(p)
     fig.imshow(masked_image.astype(np.uint8))
+    f.savefig('plot.png')
+    scipy.misc.toimage(masked_image).save('mask.png')
 
 
 def draw_rois(image, rois, refined_rois, mask, class_ids, class_names, limit=10):
