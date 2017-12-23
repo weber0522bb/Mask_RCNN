@@ -68,7 +68,16 @@ image = skimage.io.imread(os.path.join(IMAGE_DIR, '111.jpg'))
 # Run detection
 results = model.detect([image], verbose=1)
 
+# Find 'person' only
+id_person = class_names.index('person')
+print(id_person)
 # Visualize results
 r = results[0]
-visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'], 
+idx = r['class_ids'].tolist().index(1)
+print(idx)
+print(r['rois'].shape)
+print(r['masks'].shape)
+print(r['masks'].shape[-1])
+print(r['class_ids'].shape)
+visualize.display_instances(image, idx,  r['rois'], r['masks'], r['class_ids'], 
                             class_names, r['scores'])
