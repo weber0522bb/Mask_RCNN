@@ -22,6 +22,7 @@ import matplotlib.lines as lines
 from matplotlib.patches import Polygon
 import IPython.display
 from skimage import io
+from skimage import color
 import math
 import utils
 import scipy.misc
@@ -154,7 +155,8 @@ def display_instances(image, i, boxes, masks, class_ids, class_names,
     ROOT_DIR = os.getcwd()
     IMAGE_DIR =os.path.join(ROOT_DIR,"images")
     background = skimage.io.imread(os.path.join(IMAGE_DIR,'sky_PNG5481.png'))
-    
+     
+   
     dbexpos_image = screen(masked_image,background)
     scipy.misc.toimage(dbexpos_image).save('dbexpos_image.png')
 
@@ -162,7 +164,8 @@ def screen(img_1,img_2):
     if img_1.size !=img_2.size:
         height,width = img_1.shape[:2]
         img_2 = img_2[0:height,0:width]
-    
+    img_1 = img_1/255
+    img_2 = img_2/255 	
     img = 1-(1-img_1)*(1-img_2)
     return img
 def draw_rois(image, rois, refined_rois, mask, class_ids, class_names, limit=10):
