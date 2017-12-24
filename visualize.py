@@ -165,7 +165,7 @@ def screen(img_1,img_2):
     if img_1.size !=img_2.size:
         height,width = img_1.shape[:2]
         img_2 = img_2[0:height,0:width]
-    img_1 = img_1/255
+    img_1 = img_1
     img_2 = img_2/255 	
     img = 1-(1-img_1)*(1-img_2)
     return img
