@@ -75,7 +75,7 @@ def apply_mask(image, mask, color, alpha=0.5):
     for c in range(3):       
         image[:, :, c] = np.where(mask == 0,
                                   image[:, :, c]
-                                   *0  + 255,
+                                   *0  ,
                                   image[:, :, c])
        
     return image
@@ -111,7 +111,7 @@ def display_instances(image, i, boxes, masks, class_ids, class_names,
     #fig.axis('off')
     #fig.set_label(title)
 
-    masked_image = image.astype(np.uint32).copy()
+    masked_image = image.astype(np.uint64).copy()
 #    for i in range(N): 
     color = colors[i]
 
@@ -150,6 +150,7 @@ def display_instances(image, i, boxes, masks, class_ids, class_names,
         fig.add_patch(p)
     fig.imshow(masked_image.astype(np.uint8))
     f.savefig('plot.png')
+    masked_image = gray3channel(rgb2gray(masked_image/255))
     scipy.misc.toimage(masked_image).save('mask.png')
 
     ROOT_DIR = os.getcwd()
@@ -168,6 +169,17 @@ def screen(img_1,img_2):
     img_2 = img_2/255 	
     img = 1-(1-img_1)*(1-img_2)
     return img
+def gray3channel(img):
+    height,width = img.shape[:2]
+    new_img = np.zeros((height,width,3))
+    for ch in range(3):
+        for xx in range(height):
+            for yy in range(width):
+                new_img[xx,yy,ch] = img[xx,yy]
+    img = new_img
+    return img
+def rgb2gray(img):
+    return np.dot(img[...,:3],[0.2125,0.7154,0.0721])
 def draw_rois(image, rois, refined_rois, mask, class_ids, class_names, limit=10):
     """
     anchors: [n, (y1, x1, y2, x2)] list of anchors in image coordinates.
