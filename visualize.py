@@ -25,7 +25,8 @@ from skimage import io
 import math
 import utils
 import scipy.misc
-
+import os
+import skimage.io
 ############################################################
 #  Visualization
 ############################################################
@@ -68,7 +69,7 @@ def random_colors(N, bright=True):
 
 
 def apply_mask(image, mask, color, alpha=0.5):
-    """Apply the given mask to the image.
+    """Apply the given mask to the image.12/24,delete maskcolor,white background 
     """
     for c in range(3):       
         image[:, :, c] = np.where(mask == 0,
@@ -149,8 +150,21 @@ def display_instances(image, i, boxes, masks, class_ids, class_names,
     fig.imshow(masked_image.astype(np.uint8))
     f.savefig('plot.png')
     scipy.misc.toimage(masked_image).save('mask.png')
-    scipy.misc.toimage(mask).save('pure_mask.png')
 
+    ROOT_DIR = os.getcwd()
+    IMAGE_DIR =os.path.join(ROOT_DIR,"images")
+    background = skimage.io.imread(os.path.join(IMAGE_DIR,'sky_PNG5481.png'))
+    
+    dbexpos_image = screen(masked_image,background)
+    scipy.misc.toimage(dbexpos_image).save('dbexpos_image.png')
+
+def screen(img_1,img_2):
+    if img_1.size !=img_2.size:
+        height,width = img_1.shape[:2]
+        img_2 = img_2[0:height,0:width]
+    
+    img = 1-(1-img_1)*(1-img_2)
+    return img
 def draw_rois(image, rois, refined_rois, mask, class_ids, class_names, limit=10):
     """
     anchors: [n, (y1, x1, y2, x2)] list of anchors in image coordinates.
