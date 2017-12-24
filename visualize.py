@@ -148,7 +148,7 @@ def display_instances(image, i, boxes, masks, class_ids, class_names,
     fig.imshow(masked_image.astype(np.uint8))
     f.savefig('plot.png')
     scipy.misc.toimage(masked_image).save('mask.png')
-
+    scipy.misc.toimage(mask).save('pure_mask.png')
 
 def draw_rois(image, rois, refined_rois, mask, class_ids, class_names, limit=10):
     """
