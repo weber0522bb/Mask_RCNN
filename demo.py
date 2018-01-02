@@ -11,9 +11,11 @@ import coco
 import utils
 import model as modellib
 import visualize
+from time import time
+
  
 
-
+start_time = time()
 # Root directory of the project
 ROOT_DIR = os.getcwd()
 
@@ -81,3 +83,5 @@ print(r['masks'].shape[-1])
 print(r['class_ids'].shape)
 visualize.display_instances(image, idx,  r['rois'], r['masks'], r['class_ids'], 
                             class_names, r['scores'])
+end_time = time()
+print("It takes",(start_time-end_time),"to compute vocab.")

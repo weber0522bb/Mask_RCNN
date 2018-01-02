@@ -152,23 +152,41 @@ def display_instances(image, i, boxes, masks, class_ids, class_names,
     f.savefig('plot.png')
     masked_image = gray3channel(rgb2gray(masked_image/255))
     scipy.misc.toimage(masked_image).save('mask.png')
-
+    
     ROOT_DIR = os.getcwd()
     IMAGE_DIR =os.path.join(ROOT_DIR,"images")
     background = skimage.io.imread(os.path.join(IMAGE_DIR,'sky_PNG5481.png'))/255
      
-   
+    if masked_image.size != background.size:
+        height,width = masked_image.shape[:2]
+        background = background[0:height,0:width] 
+    background = nosefilter(background)
     dbexpos_image = screen(masked_image,background)
     scipy.misc.toimage(dbexpos_image).save('dbexpos_image.png')
 
 def screen(img_1,img_2):
-    if img_1.size !=img_2.size:
-        height,width = img_1.shape[:2]
-        img_2 = img_2[0:height,0:width]
     img_1 = img_1
     img_2 = img_2 	
     img = 1-(1-img_1)*(1-img_2)
     return img
+def nosefilter(img):
+    scale=1
+    new_img = np.zeros((img.shape[0],img.shape[1],3))
+    while scale>0.5:
+        Leye_x = 386
+        Leye_y = 234
+        nose_x = 499
+        nose_y = 500
+        center_x = float(nose_x)
+        center_y = float(nose_y)
+        radius_x = scale*(float(Leye_x)-center_x)
+        radius_y = scale*(float(Leye_y)-center_y)
+        for y in range(img.shape[0]):
+            for x in range(img.shape[1]):
+                if (x-center_x)**2/radius_x**2+(y-center_y)**2/radius_y**2<1:
+                    new_img[y][x]=img[y][x]*0.75
+        scale = scale * 0.95
+    return new_img
 def gray3channel(img):
     height,width = img.shape[:2]
     new_img = np.zeros((height,width,3))
