@@ -155,7 +155,7 @@ def display_instances(image, i, boxes, masks, class_ids, class_names,
 
     ROOT_DIR = os.getcwd()
     IMAGE_DIR =os.path.join(ROOT_DIR,"images")
-    background = skimage.io.imread(os.path.join(IMAGE_DIR,'sky_PNG5481.png'))
+    background = skimage.io.imread(os.path.join(IMAGE_DIR,'sky_PNG5481.png'))/255
      
    
     dbexpos_image = screen(masked_image,background)
@@ -166,7 +166,7 @@ def screen(img_1,img_2):
         height,width = img_1.shape[:2]
         img_2 = img_2[0:height,0:width]
     img_1 = img_1
-    img_2 = img_2/255 	
+    img_2 = img_2 	
     img = 1-(1-img_1)*(1-img_2)
     return img
 def gray3channel(img):
