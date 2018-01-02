@@ -178,12 +178,12 @@ def nosefilter(img):
         nose_y = 500
         center_x = float(nose_x)
         center_y = float(nose_y)
-        radius_x = scale*(float(Leye_x)-center_x)
-        radius_y = scale*(float(Leye_y)-center_y)
+        radius_x = 2*scale*(float(Leye_x)-center_x)
+        radius_y = 2*scale*(float(Leye_y)-center_y)
         for y in range(img.shape[0]):
             for x in range(img.shape[1]):
                 if (x-center_x)**2/radius_x**2+(y-center_y)**2/radius_y**2<1:
-                    img[y][x]=img[y][x]*0.75
+                    img[y][x]=img[y][x]*0.95
         scale = scale * 0.95
     return img
 def gray3channel(img):
