@@ -171,7 +171,6 @@ def screen(img_1,img_2):
     return img
 def nosefilter(img):
     scale=1
-    new_img = np.zeros((img.shape[0],img.shape[1],3))
     while scale>0.5:
         Leye_x = 386
         Leye_y = 234
@@ -184,9 +183,9 @@ def nosefilter(img):
         for y in range(img.shape[0]):
             for x in range(img.shape[1]):
                 if (x-center_x)**2/radius_x**2+(y-center_y)**2/radius_y**2<1:
-                    new_img[y][x]=img[y][x]*0.75
+                    img[y][x]=img[y][x]*0.75
         scale = scale * 0.95
-    return new_img
+    return img
 def gray3channel(img):
     height,width = img.shape[:2]
     new_img = np.zeros((height,width,3))
