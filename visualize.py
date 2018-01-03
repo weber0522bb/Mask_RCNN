@@ -81,7 +81,7 @@ def apply_mask(image, mask, color, alpha=0.5):
     return image
                                                
 
-def display_instances(image, i, boxes, masks, class_ids, class_names,
+def display_instances(image, background, i, boxes, masks, class_ids, class_names,
                       scores=None, title="",
                       figsize=(16, 16), fig=None):
     """
@@ -153,10 +153,7 @@ def display_instances(image, i, boxes, masks, class_ids, class_names,
     masked_image = gray3channel(rgb2gray(masked_image/255))
     scipy.misc.toimage(masked_image).save('mask.png')
     
-    ROOT_DIR = os.getcwd()
-    IMAGE_DIR =os.path.join(ROOT_DIR,"images")
-    background = skimage.io.imread(os.path.join(IMAGE_DIR,'sky_PNG5481.png'))/255
-     
+   
     if masked_image.size != background.size:
         height,width = masked_image.shape[:2]
         background = background[0:height,0:width] 
