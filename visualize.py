@@ -150,7 +150,8 @@ def display_instances(image, background, i, boxes, masks, class_ids, class_names
         fig.add_patch(p)
     fig.imshow(masked_image.astype(np.uint8))
     f.savefig('plot.png')
-    masked_image = gray3channel(rgb2gray(masked_image/255))
+    # masked_image = gray3channel(rgb2gray(masked_image/255))
+    masked_image = masked_image/255
     scipy.misc.toimage(masked_image).save('mask.png')
     
    
@@ -177,8 +178,20 @@ def nosefilter(img):
         center_y = float(nose_y)
         radius_x = 2*scale*(float(Leye_x)-center_x)
         radius_y = 2*scale*(float(Leye_y)-center_y)
-        for y in range(img.shape[0]):
-            for x in range(img.shape[1]):
+        min_a = center_x - radius_x
+        if min_a < 0 :
+            min_a = 0
+        max_a = center_x + radius_x
+        if max_a > img.shape[0]:
+            max_a = img.shape[0]
+        min_b = center_y - radius_y
+        if min_b < 0:
+            min_b = 0
+        max_b = center_y + radius_y
+        if max_b > img.shape[1]:
+            max_b = img.shape[1]
+        for y in range(int(min_b),int(max_b)):
+            for x in range(int(min_a),int(max_a)):
                 if (x-center_x)**2/radius_x**2+(y-center_y)**2/radius_y**2<1:
                     img[y][x]=img[y][x]*0.95
         scale = scale * 0.95

@@ -65,7 +65,7 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 
 # Load a random image from the images folder
 file_names = next(os.walk(IMAGE_DIR))[2]
-image = skimage.io.imread(os.path.join(IMAGE_DIR, 'IMG_0038.JPG'))
+image = skimage.io.imread(os.path.join(IMAGE_DIR, 'IMG_0039.JPG'))
 background_image = skimage.io.imread(os.path.join(IMAGE_DIR,'IMG_0057.JPG'))/255
 # Run detection
 results = model.detect([image], verbose=1)
