@@ -66,21 +66,23 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 # Load a random image from the images folder
 file_names = next(os.walk(IMAGE_DIR))[2]
 image = skimage.io.imread(os.path.join(IMAGE_DIR, 'IMG_0040.JPG'))
-background_image = skimage.io.imread(os.path.join(IMAGE_DIR,'IMG_0060.JPG'))/255
+background_image = skimage.io.imread(os.path.join(IMAGE_DIR,'IMG_0062.JPG'))/255
 # Run detection
 results = model.detect([image], verbose=1)
-
+#print(results)
 # Find 'person' only
 id_person = class_names.index('person')
 print(id_person)
 # Visualize results
 r = results[0]
-idx = r['class_ids'].tolist().index(1)
+#idx = r['class_ids'].tolist().index(1)
+idx = 1
 print(idx)
-print(r['rois'].shape)
-print(r['masks'].shape)
-print(r['masks'].shape[-1])
-print(r['class_ids'].shape)
+#print(r['rois'].shape)
+#print(r['masks'].shape)
+#print(r['masks'].shape[-1])
+#print(r['class_ids'].shape)
+#print(r['class_ids'])
 visualize.display_instances(image, background_image,  idx,  r['rois'], r['masks'], r['class_ids'], 
                             class_names, r['scores'])
 end_time = time()

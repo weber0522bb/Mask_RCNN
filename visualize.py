@@ -157,7 +157,13 @@ def display_instances(image, background, i, boxes, masks, class_ids, class_names
    
     if masked_image.size != background.size:
         height,width = masked_image.shape[:2]
-        background = background[0:height,0:width] 
+        b_height,b_width = background.shape[:2]
+        top_y = int(np.floor((b_height-height)/2))
+        bottom_y = int(np.ceil((b_height+height)/2))
+        left_x = int(np.floor((b_width-width)/2))
+        right_x = int(np.ceil((b_width+width)/2))
+        background = background[top_y:bottom_y:,left_x:right_x]
+        
     background = nosefilter(background)
     dbexpos_image = screen(masked_image,background)
     scipy.misc.toimage(dbexpos_image).save('dbexpos_image.png')
