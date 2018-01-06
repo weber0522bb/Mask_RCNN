@@ -28,6 +28,7 @@ import utils
 import scipy.misc
 import os
 import skimage.io
+from PIL import Image
 ############################################################
 #  Visualization
 ############################################################
@@ -157,13 +158,19 @@ def display_instances(image, background, i, boxes, masks, class_ids, class_names
    
     if masked_image.size != background.size:
         height,width = masked_image.shape[:2]
-        b_height,b_width = background.shape[:2]
-        top_y = int(np.floor((b_height-height)/2))
-        bottom_y = int(np.ceil((b_height+height)/2))
-        left_x = int(np.floor((b_width-width)/2))
-        right_x = int(np.ceil((b_width+width)/2))
-        background = background[top_y:bottom_y:,left_x:right_x]
-        
+        if height > width:
+            background.thumbnail((height,50000))
+        else :
+            background.thumbnail((50000,width))
+        background = np.array(background)/255
+        #b_height,b_width = background.shape[:2]
+        #top_y = int(np.floor((b_height-height)/2))
+        #bottom_y = int(np.ceil((b_height+height)/2))
+        #left_x = int(np.floor((b_width-width)/2))
+        #right_x = int(np.ceil((b_width+width)/2))
+        background = background[0:height,0:width]
+    else:
+        background = np.array(background)/255    
     background = nosefilter(background)
     dbexpos_image = screen(masked_image,background)
     scipy.misc.toimage(dbexpos_image).save('dbexpos_image.png')

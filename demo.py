@@ -11,6 +11,7 @@ import coco
 import utils
 import model as modellib
 import visualize
+from PIL import Image
 from time import time
 
  
@@ -66,7 +67,7 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 # Load a random image from the images folder
 file_names = next(os.walk(IMAGE_DIR))[2]
 image = skimage.io.imread(os.path.join(IMAGE_DIR, 'IMG_0040.JPG'))
-background_image = skimage.io.imread(os.path.join(IMAGE_DIR,'IMG_0062.JPG'))/255
+background_image = Image.open(os.path.join(IMAGE_DIR,'IMG_0062.JPG'))
 # Run detection
 results = model.detect([image], verbose=1)
 #print(results)
