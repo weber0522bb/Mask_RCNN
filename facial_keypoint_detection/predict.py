@@ -13,7 +13,7 @@ def print_img(X):
 
 
 def read_img():
-    path = 'kaggle/face/face8.png'
+    path = 'facial_keypoint_detection/kaggle/face/face8.png'
     im = Image.open(path)
     L = im.convert('L')
     out = L.resize((96, 96))
@@ -27,7 +27,7 @@ def read_img():
 
 def show_img(X):
     print (X)
-    path = 'kaggle/face/face8.png'
+    path = 'facial_keypoint_detection/kaggle/face/face8.png'
     im = Image.open(path)
     L = im.convert('L')
     out = L.resize((96, 96))
@@ -39,7 +39,7 @@ def show_img(X):
 sess = tf.InteractiveSession()
 y_conv, rmse = face.model()
 train_step = tf.train.AdamOptimizer(1e-3).minimize(rmse)
-ckpt = tf.train.get_checkpoint_state('kaggle/')
+ckpt = tf.train.get_checkpoint_state('facial_keypoint_detection/kaggle/')
 if ckpt and ckpt.model_checkpoint_path:
     saver = tf.train.Saver()
     saver.restore(sess, ckpt.model_checkpoint_path)
