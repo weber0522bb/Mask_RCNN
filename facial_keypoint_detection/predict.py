@@ -24,18 +24,6 @@ def read_img():
     print (im_array, im_array.shape)
     return im_array
 
-
-def show_img(X):
-    print (X)
-    path = 'kaggle/face/face8.png'
-    im = Image.open(path)
-    L = im.convert('L')
-    out = L.resize((96, 96))
-    draw = ImageDraw.Draw(out)
-    for i in range(0, len(X[0]), 2):
-        draw.point((X[0][i] * 96, X[0][i+1] * 96), fill=None)
-    out.show()
-
 sess = tf.InteractiveSession()
 y_conv, rmse = face.model()
 train_step = tf.train.AdamOptimizer(1e-3).minimize(rmse)
@@ -53,4 +41,3 @@ y_pred.extend(y_batch)
 print (y_pred)
 print ('predict test image done!')
 
-show_img(y_pred)
