@@ -18,8 +18,6 @@ def read_img():
     L = im.convert('L')
     out = L.resize((96, 96))
     #draw = ImageDraw.Draw(out)
-    # ttfont = ImageFont.truetype("/Library/Fonts/华文细黑.ttf", 20)
-    # draw.text((10, 10), u'韩寒', fill=None, font=ttfont)
     im_array = np.array(out)
     im_array = im_array / 255.0
     im_array = im_array.reshape(-1, 96, 96, 1)
@@ -41,7 +39,7 @@ def show_img(X):
 sess = tf.InteractiveSession()
 y_conv, rmse = face.model()
 train_step = tf.train.AdamOptimizer(1e-3).minimize(rmse)
-ckpt = tf.train.get_checkpoint_state('/kaggle/')
+ckpt = tf.train.get_checkpoint_state('kaggle/')
 if ckpt and ckpt.model_checkpoint_path:
     saver = tf.train.Saver()
     saver.restore(sess, ckpt.model_checkpoint_path)

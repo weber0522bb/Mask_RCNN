@@ -2,7 +2,6 @@
 import tensorflow as tf
 
 
-#根据给定的shape定义并初始化卷积核的权值变量
 def weight_variable(shape):
     initail = tf.truncated_normal(shape, stddev=0.1)
     return tf.Variable(initail)
