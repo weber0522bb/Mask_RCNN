@@ -42,4 +42,4 @@ def predict(img):
     print (y_batch)
     y_pred.extend(y_batch)
     print ('predict test image done!')
-return y_pred
+    return y_pred
