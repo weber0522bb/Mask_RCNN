@@ -8,11 +8,10 @@ TEST_FILE = 'kaggle/test.csv'
 SAVE_PATH = 'kaggle/model'
 
 
-VALIDATION_SIZE = 100    #验证集大小
-EPOCHS = 100             #迭代次数
-BATCH_SIZE = 64          #每个batch大小，稍微大一点的batch会更稳定
-EARLY_STOP_PATIENCE = 10 #控制early stopping的参数
-
+VALIDATION_SIZE = 100    
+EPOCHS = 100             
+BATCH_SIZE = 64          
+EARLY_STOP_PATIENCE = 10
 
 def input_data(test=False):
     file_name = TEST_FILE if test else TRAIN_FILE
@@ -32,7 +31,6 @@ def input_data(test=False):
     return X, y
 
 
-#将文件中的数值转成图片并保存
 def data2img(test=False):
     file_name = TEST_FILE if test else TRAIN_FILE
     df = pd.read_csv(file_name)
@@ -48,7 +46,6 @@ def data2img(test=False):
         new_im.save("kaggle/face/face" + str(i) + ".png", "png")
 
 
-#最后生成提交结果的时候要用到
 keypoint_index = {
         'left_eye_center_x': 0,
         'left_eye_center_y': 1,

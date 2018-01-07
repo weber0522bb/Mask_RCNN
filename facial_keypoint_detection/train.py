@@ -15,7 +15,6 @@ if __name__ == '__main__':
     y_conv, rmse = face.model()
     train_step = tf.train.AdamOptimizer(1e-3).minimize(rmse)
 
-    #变量初始化
     sess.run(tf.initialize_all_variables())
     X,y = read_data.input_data()
     X_valid, y_valid = X[:read_data.VALIDATION_SIZE], y[:read_data.VALIDATION_SIZE]
@@ -32,7 +31,7 @@ if __name__ == '__main__':
 
     print ('begin training..., train dataset size:{0}'.format(TRAIN_SIZE))
     for i in range(read_data.EPOCHS):
-        random.shuffle(train_index)  # 每个epoch都shuffle一下效果更好
+        random.shuffle(train_index)  
         X_train, y_train = X_train[train_index], y_train[train_index]
 
         for j in range(0, TRAIN_SIZE, read_data.BATCH_SIZE):
@@ -48,7 +47,7 @@ if __name__ == '__main__':
         if validation_loss < best_validation_loss:
             best_validation_loss = validation_loss
             current_epoch = i
-            save_model(saver, sess, read_data.SAVE_PATH)  # 即时保存最好的结果
+            save_model(saver, sess, read_data.SAVE_PATH)  
         elif (i - current_epoch) >= read_data.EARLY_STOP_PATIENCE:
             print ('early stopping')
             break

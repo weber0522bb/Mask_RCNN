@@ -29,6 +29,10 @@ import scipy.misc
 import os
 import skimage.io
 from PIL import Image
+import predict
+import sys
+sys.path.append("..")
+from proj4.code.proj4.py import face_recog
 ############################################################
 #  Visualization
 ############################################################
