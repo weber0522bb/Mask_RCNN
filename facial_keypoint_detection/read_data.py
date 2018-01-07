@@ -12,8 +12,11 @@ VALIDATION_SIZE = 100
 EPOCHS = 100             
 BATCH_SIZE = 64          
 <<<<<<< HEAD
+<<<<<<< HEAD
 EARLY_STOP_PATIENCE = 10
 =======
+=======
+>>>>>>> 80c122118f8912afcf01c352f72777665cf8d437
 EARLY_STOP_PATIENCE = 10 
 
 >>>>>>> 80c122118f8912afcf01c352f72777665cf8d437

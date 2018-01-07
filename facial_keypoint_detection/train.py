@@ -32,7 +32,11 @@ if __name__ == '__main__':
     print ('begin training..., train dataset size:{0}'.format(TRAIN_SIZE))
     for i in range(read_data.EPOCHS):
 <<<<<<< HEAD
+<<<<<<< HEAD
         random.shuffle(train_index)  
+=======
+        random.shuffle(train_index)
+>>>>>>> 80c122118f8912afcf01c352f72777665cf8d437
 =======
         random.shuffle(train_index)
 >>>>>>> 80c122118f8912afcf01c352f72777665cf8d437
@@ -52,7 +56,11 @@ if __name__ == '__main__':
             best_validation_loss = validation_loss
             current_epoch = i
 <<<<<<< HEAD
+<<<<<<< HEAD
             save_model(saver, sess, read_data.SAVE_PATH)  
+=======
+            save_model(saver, sess, read_data.SAVE_PATH)
+>>>>>>> 80c122118f8912afcf01c352f72777665cf8d437
 =======
             save_model(saver, sess, read_data.SAVE_PATH)
 >>>>>>> 80c122118f8912afcf01c352f72777665cf8d437
