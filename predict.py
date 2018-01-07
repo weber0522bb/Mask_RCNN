@@ -12,10 +12,12 @@ def print_img(X):
         print (i)
 
 
-def read_img(PATH):
+def read_img(img):
+    '''
     path = 'PATH'
     im = Image.open(path)
-    L = im.convert('L')
+    '''
+    L = img.convert('L')
     out = L.resize((96, 96))
     #draw = ImageDraw.Draw(out)
     im_array = np.array(out)
@@ -24,7 +26,7 @@ def read_img(PATH):
     print (im_array, im_array.shape)
     return im_array
 
-def predict(PATH):
+def predict(img):
     sess = tf.InteractiveSession()
     y_conv, rmse = face.model()
     train_step = tf.train.AdamOptimizer(1e-3).minimize(rmse)
@@ -33,7 +35,7 @@ def predict(PATH):
         saver = tf.train.Saver()
         saver.restore(sess, ckpt.model_checkpoint_path)
 
-    X = read_img(PATH)
+    X = read_img(img)
     y_pred = []
 
     y_batch = y_conv.eval(feed_dict={face.x: X, face.keep_prob: 1.0})
