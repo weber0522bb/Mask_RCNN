@@ -31,7 +31,11 @@ if __name__ == '__main__':
 
     print ('begin training..., train dataset size:{0}'.format(TRAIN_SIZE))
     for i in range(read_data.EPOCHS):
+<<<<<<< HEAD
         random.shuffle(train_index)  
+=======
+        random.shuffle(train_index)
+>>>>>>> 80c122118f8912afcf01c352f72777665cf8d437
         X_train, y_train = X_train[train_index], y_train[train_index]
 
         for j in range(0, TRAIN_SIZE, read_data.BATCH_SIZE):
@@ -47,7 +51,11 @@ if __name__ == '__main__':
         if validation_loss < best_validation_loss:
             best_validation_loss = validation_loss
             current_epoch = i
+<<<<<<< HEAD
             save_model(saver, sess, read_data.SAVE_PATH)  
+=======
+            save_model(saver, sess, read_data.SAVE_PATH)
+>>>>>>> 80c122118f8912afcf01c352f72777665cf8d437
         elif (i - current_epoch) >= read_data.EARLY_STOP_PATIENCE:
             print ('early stopping')
             break
