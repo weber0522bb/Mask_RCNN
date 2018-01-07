@@ -18,14 +18,6 @@ if __name__ == '__main__':
         saver.restore(sess, ckpt.model_checkpoint_path)
     else:
         print('error')
-    '''
-    saver = tf.train.Saver()
-    ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
-    
-    with tf.Session() as sess:
-        saver.restore(sess, ckpt.model_checkpoint_path)
-        print("Model restored.")
-    '''
 
     X, y = read_data.input_data(test=True)
     y_pred = []
