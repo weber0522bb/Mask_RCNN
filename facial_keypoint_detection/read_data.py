@@ -12,8 +12,6 @@ VALIDATION_SIZE = 100
 EPOCHS = 100             
 BATCH_SIZE = 64          
 EARLY_STOP_PATIENCE = 10
-EARLY_STOP_PATIENCE = 10 
-
 
 def input_data(test=False):
     file_name = TEST_FILE if test else TRAIN_FILE
@@ -31,7 +29,6 @@ def input_data(test=False):
     else:
         y = df[cols].values / 96.0
     return X, y
-
 
 def data2img(test=False):
     file_name = TEST_FILE if test else TRAIN_FILE
