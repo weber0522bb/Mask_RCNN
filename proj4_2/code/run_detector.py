@@ -8,7 +8,7 @@ from tqdm import tqdm
 
 from non_max_supr_bbox import non_max_supr_bbox
 
-def run_detector(test_scn_path, model, feature_params):
+def run_detector(img, model, feature_params):
     """
     FUNC: This function returns detections on all of the images in a given path.
         You will want to use non-maximum suppression on your detections or your
@@ -51,12 +51,12 @@ def run_detector(test_scn_path, model, feature_params):
     # non-maximum suppression. For your initial debugging, you can operate only
     # at a single scale and you can skip calling non-maximum suppression.
 
-    test_images = os.listdir(test_scn_path)
+    #test_images = os.listdir(test_scn_path)
 
     # initialize these as empty and incrementally expand them.
     bboxes = np.zeros([0, 4])
     confidences = np.zeros([0, 1])
-    image_ids = np.zeros([0, 1])
+    #image_ids = np.zeros([0, 1])
     THRESH = 0.8
 
     cell_size = feature_params['hog_cell_size']
@@ -64,7 +64,7 @@ def run_detector(test_scn_path, model, feature_params):
     D = int((feature_params['template_size'] / feature_params['hog_cell_size']) ** 2 * 31)
     window = feature_params['template_size']
     print('Testing...')
-    for i in tqdm(range(len(test_images))):
+    for i in tqdm(range(1)):
 
         #########################################
         ##          you code here              ##
@@ -72,7 +72,7 @@ def run_detector(test_scn_path, model, feature_params):
         cur_image_ids = np.zeros([0, 1])
         cur_bboxes = np.zeros([0, 4])
         cur_confidences = np.zeros([0, 1])
-        ori_img = imread(test_scn_path+'/'+test_images[i], as_grey=True)
+        ori_img = np.array(color.rgb2gray(img))
 
         # image pyramid
         for (sc_idx, im_pyramid) in enumerate(pyramid_gaussian(ori_img, downscale=feature_params['scale'])):
@@ -104,7 +104,7 @@ def run_detector(test_scn_path, model, feature_params):
 
                 py_bboxes = np.zeros([num_box, 4])
                 for idx in range(num_box):
-                    cur_image_ids = np.concatenate([cur_image_ids, np.reshape(test_images[i],[1,1])], axis=0)
+                    #cur_image_ids = np.concatenate([cur_image_ids, np.reshape(test_images[i],[1,1])], axis=0)
                     window_num = feats.shape[1]-cell_num+1
                     xstep = conf_idx[idx] % window_num
                     ystep = conf_idx[idx] // window_num
@@ -116,17 +116,17 @@ def run_detector(test_scn_path, model, feature_params):
 
                 cur_bboxes = np.concatenate([cur_bboxes, py_bboxes], axis=0)
                 cur_confidences = np.concatenate([cur_confidences, py_conf], axis=0)
-
-
+        a= 20
+        print(a,"fuc")
         is_maximum = non_max_supr_bbox(cur_bboxes, cur_confidences, ori_img.shape)
 
         cur_bboxes = cur_bboxes[is_maximum[:, 0], :]
         cur_confidences = cur_confidences[is_maximum[:, 0], :]
-        cur_image_ids = cur_image_ids[is_maximum[:, 0]]
+        #cur_image_ids = cur_image_ids[is_maximum[:, 0]]
 
         bboxes = np.concatenate([bboxes, cur_bboxes], axis=0)
         confidences = np.concatenate([confidences, cur_confidences], axis=0)
-        image_ids = np.concatenate([image_ids, cur_image_ids], axis=0)
+        #image_ids = np.concatenate([image_ids, cur_image_ids], axis=0)
         #########################################
         ##          you code here              ##
         #########################################
@@ -139,5 +139,5 @@ def run_detector(test_scn_path, model, feature_params):
         # anything in non_max_supr_bbox, but you can.
 
 
-    return bboxes, confidences, image_ids
+    return bboxes, confidences
 
