@@ -3,8 +3,8 @@ import tensorflow as tf
 
 
 def weight_variable(shape):
-    initail = tf.truncated_normal(shape, stddev=0.1)
-    return tf.Variable(initail)
+    initial = tf.truncated_normal(shape, stddev=0.1)
+    return tf.Variable(initial)
 
 
 def bias_variable(shape):
