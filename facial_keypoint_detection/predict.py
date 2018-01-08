@@ -20,7 +20,7 @@ def read_img(img):
     path = 'PATH'
     im = Image.open(path)
     '''
-    L = Image.fromarray(img)
+    L = Image.fromarray(np.unit8(img))
     out = L.resize((96, 96))
     #draw = ImageDraw.Draw(out)
     im_array = np.array(out)
