@@ -10,13 +10,13 @@ from skimage import draw, exposure
 from get_positive_features import get_positive_features
 from get_random_negative_features import get_random_negative_features
 from svm_classify import svm_classify
-from report_accuracy import report_accuracy
+#from report_accuracy import report_accuracy
 from run_detector import run_detector
-from evaluate_detections import evaluate_detections
-from visualize_detections_by_image import visualize_detections_by_image
+#from evaluate_detections import evaluate_detections
+#from visualize_detections_by_image import visualize_detections_by_image
 
 
-def main():
+def face_recog(img):
     # root directory of all data
     data_path = '../data'
     # directory of positive training examples. 36x36 head crops
@@ -60,20 +60,20 @@ def main():
     # but it is a good sanity check. Your training error should be very low.
     print('Initial classifier performance on train data:')
     confidences = model.predict(features_total)
-    label_vector = labels
-    tp_rate, fp_rate, tn_rate, fn_rate = report_accuracy(confidences, label_vector)
+    #label_vector = labels
+    #tp_rate, fp_rate, tn_rate, fn_rate = report_accuracy(confidences, label_vector)
 
 
     # Visualize how well separated the positive and negative examples are at
     # training time. Sometimes this can idenfity odd biases in your training
     # data, especially if you're trying hard negative mining. This
     # visualization won't be very meaningful with the placeholder starter code.
-    non_face_confs = confidences[label_vector.ravel()<0]
-    face_confs = confidences[label_vector.ravel()>0]
-    fig2 = plt.figure(2)
-    plt.plot(np.arange(non_face_confs.size), np.sort(non_face_confs), color='g')
-    plt.plot(np.arange(face_confs.size), np.sort(face_confs), color='r')
-    plt.plot([0, non_face_confs.size], [0,0], color='b')
+    #non_face_confs = confidences[label_vector.ravel()<0]
+    #face_confs = confidences[label_vector.ravel()>0]
+    #fig2 = plt.figure(2)
+    #plt.plot(np.arange(non_face_confs.size), np.sort(non_face_confs), color='g')
+    #plt.plot(np.arange(face_confs.size), np.sort(face_confs), color='r')
+    #plt.plot([0, non_face_confs.size], [0,0], color='b')
     #plt.show()
     
     ## Step 4. (optional) Mine hard negatives
@@ -98,8 +98,15 @@ def main():
     # YOU CODE 'run_detector'. Make sure the outputs are properly structured!
     # They will be interpreted in Step 6 to evaluate and visualize your
     # results. See run_detector.m for more details.
-    bboxes, confidences, image_ids = run_detector(test_scn_path, model, feature_params)
-
+    bboxes, confidences = run_detector(img, model, feature_params)
+    v,i = max([(v,i) for i,v in enumerate(my_list)])
+    min_x , min_y , max_x , max_y = bboxes[i]
+    min_x = np.floor(min_x)
+    max_x = np.ceil(max_x)
+    min_y = np.floor(min_y)
+    max_y = np.ceil(max_y)
+    
+    img = img[min_x:max_x,min_y:max_y]
     # run_detector will have (at least) two parameters which can heavily
     # influence performance -- how much to rescale each step of your multiscale
     # detector, and the threshold for a detection. If your recall rate is low
@@ -114,10 +121,10 @@ def main():
     # for testing on extra images (it is commented out below).
     
     # Don't modify anything in 'evaluate_detections'
-    gt_ids, gt_bboxes, gt_isclaimed, tp, fp, duplicate_detections = \
-        evaluate_detections(bboxes, confidences, image_ids, label_path, fig_path)
+    #gt_ids, gt_bboxes, gt_isclaimed, tp, fp, duplicate_detections = \
+    #    evaluate_detections(bboxes, confidences, image_ids, label_path, fig_path)
 
-    visualize_detections_by_image(bboxes, confidences, image_ids, tp, fp, test_scn_path, label_path, fig_path)
+    #visualize_detections_by_image(bboxes, confidences, image_ids, tp, fp, test_scn_path, label_path, fig_path)
 
     # performance to aim for
     # random (stater code) 0.001 AP
@@ -128,3 +135,4 @@ def main():
 
 if __name__=="__main__":
     main()
+    return img , min_x , min_y , max_x , max_y
