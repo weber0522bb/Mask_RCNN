@@ -32,7 +32,7 @@ from PIL import Image
 import predict
 import sys
 sys.path.append("..")
-from proj4.code.proj4.py import face_recog
+from proj4_2.code.proj4 import face_recog
 ############################################################
 #  Visualization
 ############################################################
@@ -158,8 +158,12 @@ def display_instances(image, background, i, boxes, masks, class_ids, class_names
     # masked_image = gray3channel(rgb2gray(masked_image/255))
     masked_image = masked_image/255
     scipy.misc.toimage(masked_image).save('mask.png')
-    
-   
+
+    face_image,min_x,min_y,max_x,max_y = face_recog(masked_image)
+    #scipy.misc.toimage(face_image).save('face_image.png')
+    y_pred = predict.predict(face_image)
+    print("y_predict=",y_pred)
+
     if masked_image.size != background.size:
         height,width = masked_image.shape[:2]
         if height > width:

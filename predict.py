@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import tensorflow as tf
-import facial_keypoint_detection.face.
+import sys
+sys.path.append("..")
+import facial_keypoint_detection.face
 from PIL import Image
 import numpy as np
 from PIL import ImageDraw

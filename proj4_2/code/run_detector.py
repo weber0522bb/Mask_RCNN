@@ -5,8 +5,10 @@ from skimage.transform import pyramid_gaussian
 from skimage import color
 from cyvlfeat.hog import hog
 from tqdm import tqdm
+import sys
+sys.path.append("..")
 
-from non_max_supr_bbox import non_max_supr_bbox
+from proj4_2.code.non_max_supr_bbox import non_max_supr_bbox
 
 def run_detector(img, model, feature_params):
     """

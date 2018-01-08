@@ -6,19 +6,21 @@ from cyvlfeat.hog import hog
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 from skimage import draw, exposure
+import sys
+sys.path.append("..")
 
-from get_positive_features import get_positive_features
-from get_random_negative_features import get_random_negative_features
-from svm_classify import svm_classify
+from proj4_2.code.get_positive_features import get_positive_features
+from proj4_2.code.get_random_negative_features import get_random_negative_features
+from proj4_2.code.svm_classify import svm_classify
 #from report_accuracy import report_accuracy
-from run_detector import run_detector
+from proj4_2.code.run_detector import run_detector
 #from evaluate_detections import evaluate_detections
 #from visualize_detections_by_image import visualize_detections_by_image
 
 
 def face_recog(img):
     # root directory of all data
-    data_path = '../data'
+    data_path = '../Mask_RCNN/proj4_2/data'
     # directory of positive training examples. 36x36 head crops
     train_path_pos = os.path.join(data_path, 'caltech_faces/Caltech_CropFaces')
     # we can mine random or hard negatives from here
@@ -99,13 +101,14 @@ def face_recog(img):
     # They will be interpreted in Step 6 to evaluate and visualize your
     # results. See run_detector.m for more details.
     bboxes, confidences = run_detector(img, model, feature_params)
-    v,i = max([(v,i) for i,v in enumerate(my_list)])
+    v,i = max([(v,i) for i,v in enumerate(confidences)])
+    print(v,i,"max_value&dindex")
     min_x , min_y , max_x , max_y = bboxes[i]
-    min_x = np.floor(min_x)
-    max_x = np.ceil(max_x)
-    min_y = np.floor(min_y)
-    max_y = np.ceil(max_y)
-    
+    min_x = int(np.floor(min_x))
+    max_x = int(np.ceil(max_x))
+    min_y = int(np.floor(min_y))
+    max_y = int(np.ceil(max_y))
+    print(min_x,max_x,min_y,max_y)
     img = img[min_x:max_x,min_y:max_y]
     # run_detector will have (at least) two parameters which can heavily
     # influence performance -- how much to rescale each step of your multiscale
@@ -132,7 +135,7 @@ def face_recog(img):
     # multiscale, 6 pixel step ~ 0.83 AP
     # multiscale, 4 pixel step ~ 0.89 AP
     # multiscale, 3 pixel step ~ 0.92 AP
-
+    return img , min_x , min_y , max_x , max_y
 if __name__=="__main__":
     main()
-    return img , min_x , min_y , max_x , max_y
+   
