@@ -102,14 +102,15 @@ def face_recog(img):
     # results. See run_detector.m for more details.
     bboxes, confidences = run_detector(img, model, feature_params)
     v,i = max([(v,i) for i,v in enumerate(confidences)])
-    print(v,i,"max_value&dindex")
+    print(v,i,"max_value&index")
     min_x , min_y , max_x , max_y = bboxes[i]
     min_x = int(np.floor(min_x))
     max_x = int(np.ceil(max_x))
     min_y = int(np.floor(min_y))
     max_y = int(np.ceil(max_y))
     print(min_x,max_x,min_y,max_y)
-    img = img[min_x:max_x,min_y:max_y]
+    print("img size is",img.shape[0],img.shape[1])
+    img = np.array(img[min_y:max_y,min_x:max_x,:])
     # run_detector will have (at least) two parameters which can heavily
     # influence performance -- how much to rescale each step of your multiscale
     # detector, and the threshold for a detection. If your recall rate is low

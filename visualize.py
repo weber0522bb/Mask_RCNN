@@ -161,7 +161,7 @@ def display_instances(image, background, i, boxes, masks, class_ids, class_names
     scipy.misc.toimage(masked_image).save('mask.png')
 
     face_image,min_x,min_y,max_x,max_y = face_recog(masked_image)
-    #scipy.misc.toimage(face_image).save('face_image.png')
+    scipy.misc.toimage(face_image).save('face_image.png')
     y_pred = predict.predict(face_image)
     print("y_predict=",y_pred)
 
