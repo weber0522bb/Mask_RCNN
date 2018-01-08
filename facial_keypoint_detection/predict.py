@@ -29,8 +29,6 @@ def read_img(img):
 
 def predict(img):
     sess = tf.InteractiveSession()
-    sess.run(tf.global_variables_initializer())
-    sess.run(tf.local_variables_initializer())
     y_conv, rmse = face.model()
     train_step = tf.train.AdamOptimizer(1e-3).minimize(rmse)
     ckpt = tf.train.get_checkpoint_state('kaggle/')
