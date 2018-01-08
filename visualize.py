@@ -29,9 +29,10 @@ import scipy.misc
 import os
 import skimage.io
 from PIL import Image
-import predict
+
 import sys
-sys.path.append("..")
+sys.path.insert(0,'/media/HDD/cvteam14/Mask_RCNN/facial_keypoint_detection')
+import predict
 from proj4_2.code.proj4 import face_recog
 ############################################################
 #  Visualization
