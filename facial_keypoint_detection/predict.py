@@ -30,6 +30,17 @@ def read_img(img):
     print (im_array, im_array.shape)
     return im_array
 
+def show_img(X, img):
+    print (X)
+    img = Image.fromarray(img.astype('uint8'), 'RGB')
+    L = img.convert('L')
+    out = L.resize((96, 96))
+    draw = ImageDraw.Draw(out)
+    for i in range(0, len(X[0]), 2):
+        draw.point((X[0][i] * 96, X[0][i+1] * 96), fill=None)
+    out.save('test1_point.png')
+    out.show()
+
 def predict(img):
     sess = tf.InteractiveSession()
     y_conv, rmse = face.model()
