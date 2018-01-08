@@ -31,6 +31,8 @@ def predict(img):
     sess = tf.InteractiveSession()
     y_conv, rmse = face.model()
     train_step = tf.train.AdamOptimizer(1e-3).minimize(rmse)
+    sess.run(tf.initialize_all_variables())
+    
     ckpt = tf.train.get_checkpoint_state('kaggle/')
     if ckpt and ckpt.model_checkpoint_path:
         saver = tf.train.Saver()
