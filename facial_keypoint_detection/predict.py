@@ -12,10 +12,12 @@ def print_img(X):
         print (i)
 
 
-def read_img():
-    path = 'kaggle/face/face8.png'
+def read_img(img):
+    '''
+    path = 'PATH'
     im = Image.open(path)
-    L = im.convert('L')
+    '''
+    L = img.convert('L')
     out = L.resize((96, 96))
     #draw = ImageDraw.Draw(out)
     im_array = np.array(out)
@@ -24,21 +26,20 @@ def read_img():
     print (im_array, im_array.shape)
     return im_array
 
+def predict(img):
+    sess = tf.InteractiveSession()
+    y_conv, rmse = face.model()
+    train_step = tf.train.AdamOptimizer(1e-3).minimize(rmse)
+    ckpt = tf.train.get_checkpoint_state('kaggle/')
+    if ckpt and ckpt.model_checkpoint_path:
+        saver = tf.train.Saver()
+        saver.restore(sess, ckpt.model_checkpoint_path)
 
-sess = tf.InteractiveSession()
-y_conv, rmse = face.model()
-train_step = tf.train.AdamOptimizer(1e-3).minimize(rmse)
+    X = read_img(img)
+    y_pred = []
 
-ckpt = tf.train.get_checkpoint_state('kaggle/')
-if ckpt and ckpt.model_checkpoint_path:
-    saver = tf.train.Saver()
-    saver.restore(sess, ckpt.model_checkpoint_path)
-
-X = read_img()
-y_pred = []
-
-y_batch = y_conv.eval(feed_dict={face.x: X, face.keep_prob: 1.0})
-print (y_batch)
-y_pred.extend(y_batch)
-print (y_pred)
-print ('predict test image done!')
+    y_batch = y_conv.eval(feed_dict={face.x: X, face.keep_prob: 1.0})
+    print (y_batch)
+    y_pred.extend(y_batch)
+    print ('predict test image done!')
+    return y_pred
