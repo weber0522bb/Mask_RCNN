@@ -206,8 +206,9 @@ def nosefilter(img,Leye_x,Leye_y,nose_x,nose_y):
         #nose_y = y_pred[0][21]
         center_x = float(nose_x)
         center_y = float(nose_y)
-        radius_x = 2*scale*(float(Leye_x)-center_x)
-        radius_y = 2*scale*(float(Leye_y)-center_y)
+        radius_x = 2*scale*abs(float(Leye_x)-center_x)
+        radius_y = 2*scale*abs(float(Leye_y)-center_y)
+        print(center_x,center_y,radius_x,radius_y)
         min_a = center_x - radius_x
         if min_a < 0 :
             min_a = 0
@@ -224,7 +225,9 @@ def nosefilter(img,Leye_x,Leye_y,nose_x,nose_y):
             for x in range(int(min_a),int(max_a)):
                 if (x-center_x)**2/radius_x**2+(y-center_y)**2/radius_y**2<1:
                     img[y][x]=img[y][x]*0.95
+                    print("y=",y,"x=",x)
         scale = scale * 0.95
+        print("finish filter")
     return img
 def gray3channel(img):
     height,width = img.shape[:2]
