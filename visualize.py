@@ -164,7 +164,13 @@ def display_instances(image, background, i, boxes, masks, class_ids, class_names
     scipy.misc.toimage(face_image).save('face_image.png')
     y_pred = predict.predict(face_image)
     print("y_predict=",y_pred)
-    
+    y_product = face_image.shape[0]/60
+    x_product = face_image.shape[1]/60
+    Leye_x = y_pred[0][6]*x_product+min_x
+    Leye_y = y_pred[0][7]*y_product+min_y
+    nose_x = y_pred[0][20]*x_product+min_x
+    nose_y = y_pred[0][21]*y_product+min_y
+    print(Leye_x,Leye_y,nose_x,nose_y)
     #predict.show_img(y_pred,face_image)
     if masked_image.size != background.size:
         height,width = masked_image.shape[:2]
