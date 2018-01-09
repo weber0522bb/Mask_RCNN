@@ -25,7 +25,7 @@ def read_img(img):
     img = scipy.misc.toimage(img)
     '''
     print ('img1:',img, np.size(img))
-    img = Image.fromarray(img, 'RGB')
+    img = Image.fromarray(img.astype('uint64'), 'RGB')
     print ('img2:',img)
     L = img.convert('L')
     print ('L:',L)
