@@ -77,13 +77,13 @@ print(id_person)
 # Visualize results
 r = results[0]
 #idx = r['class_ids'].tolist().index(1)
-idx = 3
+idx = 4
 print(idx)
 #print(r['rois'].shape)
 #print(r['masks'].shape)
 #print(r['masks'].shape[-1])
 #print(r['class_ids'].shape)
-#print(r['class_ids'])
+print(r['class_ids'])
 visualize.display_instances(image, background_image,  idx,  r['rois'], r['masks'], r['class_ids'], 
                             class_names, r['scores'])
 end_time = time()
