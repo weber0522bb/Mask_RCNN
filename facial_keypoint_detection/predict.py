@@ -48,4 +48,5 @@ def predict(img):
     print (y_batch)
     y_pred.extend(y_batch)
     print ('predict test image done!')
+    y_pred = y_pred[0][:]*96
     return y_pred
