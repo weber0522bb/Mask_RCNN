@@ -20,13 +20,10 @@ def read_img(img):
     path = 'PATH'
     im = Image.open(path)
     '''
-<<<<<<< HEAD
     img = scipy.misc.toimage(img)
-=======
     print ('img:',img)
     img = Image.fromarray(img.astype('uint8'), 'RGB')
     print ('img2:',img)
->>>>>>> 1a80355a7367ec7e40f6255ca205478b5b715832
     L = img.convert('L')
     print ('L:',L)
     out = L.resize((96, 96))
