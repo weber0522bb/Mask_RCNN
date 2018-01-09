@@ -20,11 +20,16 @@ def read_img(img):
     path = 'PATH'
     im = Image.open(path)
     '''
+    print ('img:',img)
     img = Image.fromarray(img.astype('uint8'), 'RGB')
+    print ('img2:',img)
     L = img.convert('L')
+    print ('L:',L)
     out = L.resize((96, 96))
+    print ('out:',out)
     #draw = ImageDraw.Draw(out)
     im_array = np.array(out)
+    print ('im_array:',im_array)
     im_array = im_array / 255.0
     im_array = im_array.reshape(-1, 96, 96, 1)
     print (im_array, im_array.shape)
