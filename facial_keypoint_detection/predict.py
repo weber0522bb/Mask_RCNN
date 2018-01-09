@@ -7,7 +7,7 @@ import face
 from PIL import Image
 import numpy as np
 from PIL import ImageDraw
-
+import scipy.misc
 
 def print_img(X):
     array2 = np.array(X)
@@ -20,7 +20,7 @@ def read_img(img):
     path = 'PATH'
     im = Image.open(path)
     '''
-    img = Image.fromarray(img.astype('uint8'), 'RGB')
+    img = scipy.misc.toimage(img)
     L = img.convert('L')
     out = L.resize((96, 96))
     #draw = ImageDraw.Draw(out)

@@ -66,7 +66,7 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 
 # Load a random image from the images folder
 file_names = next(os.walk(IMAGE_DIR))[2]
-image = skimage.io.imread(os.path.join(IMAGE_DIR, 'IMG_0051.JPG'))
+image = skimage.io.imread(os.path.join(IMAGE_DIR, 'IMG_0040.JPG'))
 background_image = Image.open(os.path.join(IMAGE_DIR,'IMG_0060.JPG'))
 # Run detection
 results = model.detect([image], verbose=1)
@@ -77,7 +77,7 @@ print(id_person)
 # Visualize results
 r = results[0]
 #idx = r['class_ids'].tolist().index(1)
-idx = 4
+idx = 1
 print(idx)
 #print(r['rois'].shape)
 #print(r['masks'].shape)
