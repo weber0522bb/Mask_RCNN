@@ -20,8 +20,11 @@ def read_img(img):
     path = 'PATH'
     im = Image.open(path)
     '''
+    '''
+    print ('img0:',img)
     img = scipy.misc.toimage(img)
-    print ('img:',img)
+    '''
+    print ('img1:',img)
     img = Image.fromarray(img.astype('uint8'), 'RGB')
     print ('img2:',img)
     L = img.convert('L')
