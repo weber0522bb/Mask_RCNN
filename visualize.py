@@ -160,17 +160,18 @@ def display_instances(image, background, i, boxes, masks, class_ids, class_names
     masked_image = masked_image/255
     scipy.misc.toimage(masked_image).save('mask.png')
 
-    face_image,min_x,min_y,max_x,max_y = face_recog(masked_image)
-    scipy.misc.toimage(face_image).save('face_image.png')
-    y_pred = predict.predict(face_image)
-    print("y_predict=",y_pred)
-    y_product = face_image.shape[0]/60
-    x_product = face_image.shape[1]/60
-    Leye_x = np.floor(y_pred[0][6]*x_product+min_x)
-    Leye_y = np.floor(y_pred[0][7]*y_product+min_y)
-    nose_x = np.ceil(y_pred[0][20]*x_product+min_x)
-    nose_y = np.ceil(y_pred[0][21]*y_product+min_y)
-    print(Leye_x,Leye_y,nose_x,nose_y,masked_image.shape[0],masked_image.shape[1])
+    #face_image,min_x,min_y,max_x,max_y = face_recog(masked_image)
+    #scipy.misc.toimage(face_image).save('face_image.png')
+    #y_pred = predict.predict(face_image)
+    #print("y_predict=",y_pred)
+    #y_product = face_image.shape[0]/60
+    #x_product = face_image.shape[1]/60
+    #Leye_x = np.floor(y_pred[0][6]*x_product+min_x)
+    #Leye_y = np.floor(y_pred[0][7]*y_product+min_y)
+    #nose_x = np.ceil(y_pred[0][20]*x_product+min_x)
+    #nose_y = np.ceil(y_pred[0][21]*y_product+min_y)
+    #print(Leye_x,Leye_y,nose_x,nose_y,masked_image.shape[0],masked_image.shape[1])
+
     #predict.show_img(y_pred,face_image)
     if masked_image.size != background.size:
         height,width = masked_image.shape[:2]
@@ -187,10 +188,10 @@ def display_instances(image, background, i, boxes, masks, class_ids, class_names
         background = background[0:height,0:width]
     else:
         background = np.array(background)/255    
-    background = nosefilter(background,Leye_x,Leye_y,nose_x,nose_y)
-    dbexpos_image = screen(masked_image,background)
+   # background = nosefilter(background,Leye_x,Leye_y,nose_x,nose_y)
+   # dbexpos_image = screen(masked_image,background)
     scipy.misc.toimage(background).save('background_filter.png')
-    scipy.misc.toimage(dbexpos_image).save('dbexpos_image.png')
+   # scipy.misc.toimage(dbexpos_image).save('dbexpos_image.png')
 
 def screen(img_1,img_2):
     img_1 = img_1
@@ -225,9 +226,9 @@ def nosefilter(img,Leye_x,Leye_y,nose_x,nose_y):
             for x in range(int(min_a),int(max_a)):
                 if (x-center_x)**2/radius_x**2+(y-center_y)**2/radius_y**2<1:
                     img[y][x]=img[y][x]*0.95
-                    print("y=",y,"x=",x)
+                    #print("y=",y,"x=",x)
         scale = scale * 0.95
-        print("finish filter")
+        #print("finish filter")
     return img
 def gray3channel(img):
     height,width = img.shape[:2]
