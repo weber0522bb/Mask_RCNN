@@ -166,10 +166,10 @@ def display_instances(image, background, i, boxes, masks, class_ids, class_names
     print("y_predict=",y_pred)
     y_product = face_image.shape[0]/60
     x_product = face_image.shape[1]/60
-    Leye_x = y_pred[0][6]*x_product+min_x
-    Leye_y = y_pred[0][7]*y_product+min_y
-    nose_x = y_pred[0][20]*x_product+min_x
-    nose_y = y_pred[0][21]*y_product+min_y
+    Leye_x = np.floor(y_pred[0][6]*x_product+min_x)
+    Leye_y = np.floor(y_pred[0][7]*y_product+min_y)
+    nose_x = np.ceil(y_pred[0][20]*x_product+min_x)
+    nose_y = np.ceil(y_pred[0][21]*y_product+min_y)
     print(Leye_x,Leye_y,nose_x,nose_y)
     #predict.show_img(y_pred,face_image)
     if masked_image.size != background.size:
@@ -189,6 +189,7 @@ def display_instances(image, background, i, boxes, masks, class_ids, class_names
         background = np.array(background)/255    
     background = nosefilter(background,Leye_x,Leye_y,nose_x,nose_y)
     dbexpos_image = screen(masked_image,background)
+    scipy.misc.toimage(background).save('background_filter.png')
     scipy.misc.toimage(dbexpos_image).save('dbexpos_image.png')
 
 def screen(img_1,img_2):
@@ -211,14 +212,14 @@ def nosefilter(img,Leye_x,Leye_y,nose_x,nose_y):
         if min_a < 0 :
             min_a = 0
         max_a = center_x + radius_x
-        if max_a > img.shape[0]:
-            max_a = img.shape[0]
+        if max_a > img.shape[1]:
+            max_a = img.shape[1]
         min_b = center_y - radius_y
         if min_b < 0:
             min_b = 0
         max_b = center_y + radius_y
-        if max_b > img.shape[1]:
-            max_b = img.shape[1]
+        if max_b > img.shape[0]:
+            max_b = img.shape[0]
         for y in range(int(min_b),int(max_b)):
             for x in range(int(min_a),int(max_a)):
                 if (x-center_x)**2/radius_x**2+(y-center_y)**2/radius_y**2<1:
