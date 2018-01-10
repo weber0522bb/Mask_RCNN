@@ -172,11 +172,11 @@ def display_instances(image, background, i, boxes, masks, class_ids, class_names
     y_product = b[0]/60
     x_product = b[1]/60
     min_x ,min_y,max_x,max_y = bboxes[:4]
-    Leye_x = np.floor(y_pred[0]*x_product+min_x)
+    Leye_x = np.floor((96-y_pred[0])*x_product+min_x)
     Leye_y = np.floor((96-y_pred[1])*y_product+min_y)
-    nose_x = np.ceil(y_pred[20]*x_product+min_x)
+    nose_x = np.ceil((96-y_pred[20])*x_product+min_x)
     nose_y = np.ceil((96-y_pred[21])*y_product+min_y)
-    mouse_x = np.ceil(y_pred[26]*x_product+min_x)
+    mouse_x = np.ceil((96-y_pred[26])*x_product+min_x)
     mouse_y = np.ceil((96-y_pred[27])*y_product+min_y)
     print("face",Leye_x,Leye_y,nose_x,nose_y,mouse_x,mouse_y)
     #print(Leye_x,Leye_y,nose_x,nose_y,masked_image.shape[0],masked_image.shape[1])
