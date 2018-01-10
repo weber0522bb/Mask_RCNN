@@ -22,7 +22,7 @@ def print_img(X):
 def read_img():
 
     #path = '/data/VSLab/cvteam14/test1_point.png'
-    ori_path = '../face_image.png'
+    ori_path = '../mask.png'
     ori_img= np.array(Image.open(ori_path))
     print(ori_img,"ori_img")
     face_image,min_x,min_y,max_x,max_y = face_recog(ori_img)
