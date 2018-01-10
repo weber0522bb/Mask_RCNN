@@ -238,7 +238,7 @@ def nosefilter(img,Leye_x,Leye_y,nose_x,nose_y,mouse_x,mouse_y):
             max_b = img.shape[0]
         for y in range(int(min_b),int(max_b)):
             for x in range(int(min_a),int(max_a)):
-                if (x-center_x)**2*(cosine_sita**2/radius_x**2+sine_sita**2/radius_y**2)+(y-center_y)**2*(sine_sita**2/radius_x**2+cosine_sita**2/radius_y**2)+2*(cosine_sita*sine_sita/radius_x**2-sine_sita*cosine_sita/radius_y**2)*(x-center_x)*(y-center_y)<1:    
+                if (x-center_x)**2*(cosine_sita**2/radius_x**2+sine_sita**2/radius_y**2)+(y-center_y)**2*(sine_sita**2/radius_x**2+cosine_sita**2/radius_y**2)+2*(cosine_sita*sine_sita/radius_x**2-sine_sita*cosine_sita/radius_y**2)*(x-center_x)*(y-center_y)<=1:    
                 #if (x-center_x)**2/radius_x**2+(y-center_y)**2/radius_y**2<1:
                     img[y][x]=img[y][x]*0.95
                     #print("y=",y,"x=",x)
