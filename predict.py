@@ -32,8 +32,10 @@ def predict(img):
     ckpt = tf.train.get_checkpoint_state('facial_keypoint_detection/kaggle/')
     if ckpt and ckpt.model_checkpoint_path:
         saver = tf.train.Saver()
+        print (ckpt.model_checkpoint_path)
         saver.restore(sess, ckpt.model_checkpoint_path)
-
+    else
+        print ('NO CHECKPOINT')
     X = read_img(img)
     y_pred = []
 
