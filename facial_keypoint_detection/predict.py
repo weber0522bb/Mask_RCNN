@@ -20,7 +20,18 @@ def print_img(X):
 
 
 def read_img():
-    path = '/data/VSLab/cvteam14/test1_point.png'
+
+    #path = '/data/VSLab/cvteam14/test1_point.png'
+    ori_path = '../images/IMG_0040.JPG'
+    ori_img= np.array(Image.open(ori_path))
+    print(ori_img,"ori_img")
+    face_image,min_x,min_y,max_x,max_y = face_recog(ori_img)
+    bboxes = np.array([min_x,min_y,max_x,max_y])
+    np.save('/media/HDD/cvteam14/Mask_RCNN/image_shape.npy',face_image.shape[:2])
+    np.save('/media/HDD/cvteam14/Mask_RCNN/bboxes.npy',bboxes)
+    scipy.misc.toimage(face_image).save('face_image.png')
+    
+    path = '../face_image.png'
     img = Image.open(path)
     print ('img:',img)
     '''
@@ -76,4 +87,4 @@ print (y_batch)
 y_pred.extend(y_batch)
 print ('predict test image done!')
 y_pred = y_pred[0][:]*96
-
+np.save('/media/HDD/cvteam14/Mask_RCNN/y_pred.npy',y_pred)

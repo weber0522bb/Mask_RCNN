@@ -20,7 +20,7 @@ from proj4_2.code.run_detector import run_detector
 
 def face_recog(img):
     # root directory of all data
-    data_path = '../Mask_RCNN/proj4_2/data'
+    data_path = '../../Mask_RCNN/proj4_2/data'
     # directory of positive training examples. 36x36 head crops
     train_path_pos = os.path.join(data_path, 'caltech_faces/Caltech_CropFaces')
     # we can mine random or hard negatives from here
@@ -137,6 +137,7 @@ def face_recog(img):
     # multiscale, 4 pixel step ~ 0.89 AP
     # multiscale, 3 pixel step ~ 0.92 AP
     return img , min_x , min_y , max_x , max_y
+    
 if __name__=="__main__":
     main()
    

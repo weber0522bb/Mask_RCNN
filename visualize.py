@@ -32,8 +32,8 @@ from PIL import Image
 
 import sys
 sys.path.insert(0,'/media/HDD/cvteam14/Mask_RCNN/facial_keypoint_detection')
-import predict
-from proj4_2.code.proj4 import face_recog
+#import predict
+#from proj4_2.code.proj4 import face_recog
 ############################################################
 #  Visualization
 ############################################################
@@ -160,17 +160,24 @@ def display_instances(image, background, i, boxes, masks, class_ids, class_names
     masked_image = masked_image/255
     scipy.misc.toimage(masked_image).save('mask.png')
     print("masked_image=",masked_image)
-    face_image,min_x,min_y,max_x,max_y = face_recog(masked_image)
-    scipy.misc.toimage(face_image).save('face_image.png')
-    print("face_image=",face_image)
-    y_pred = predict.predict(face_image)
-    print("y_predict=",y_pred)
-    #y_product = face_image.shape[0]/60
-    #x_product = face_image.shape[1]/60
-    #Leye_x = np.floor(y_pred[0][6]*x_product+min_x)
-    #Leye_y = np.floor(y_pred[0][7]*y_product+min_y)
-    #nose_x = np.ceil(y_pred[0][20]*x_product+min_x)
-    #nose_y = np.ceil(y_pred[0][21]*y_product+min_y)
+    #face_image,min_x,min_y,max_x,max_y = face_recog(masked_image)
+    #scipy.misc.toimage(face_image).save('face_image.png')
+    #print("face_image=",face_image)
+    #y_pred = predict.predict(face_image)
+    #print("y_predict=",y_pred)
+    y_pred = np.load('y_pred.npy')
+    
+    b = np.load('image_shape.npy')
+    bboxes = np.load('bboxes.npy') 
+    y_product = b[0]/60
+    x_product = b[1]/60
+    min_x ,min_y,max_x,max_y = bboxes[:4]
+    Leye_x = np.floor(y_pred[6]*x_product+min_x)
+    Leye_y = np.floor(y_pred[7]*y_product+min_y)
+    nose_x = np.ceil(y_pred[20]*x_product+min_x)
+    nose_y = np.ceil(y_pred[21]*y_product+min_y)
+    mouse_x = np.ceil(y_pred[26]*x_product+min_x)
+    mouse_y = np.ceil(y_pred[27]*y_product+min_y)
     #print(Leye_x,Leye_y,nose_x,nose_y,masked_image.shape[0],masked_image.shape[1])
 
     #predict.show_img(y_pred,face_image)
@@ -199,13 +206,18 @@ def screen(img_1,img_2):
     img_2 = img_2 	
     img = 1-(1-img_1)*(1-img_2)
     return img
-def nosefilter(img,Leye_x,Leye_y,nose_x,nose_y):
+def nosefilter(img,Leye_x,Leye_y,nose_x,nose_y,mouse_x,mouse_y):
     scale=1
     while scale>0.5:
         #Leye_x = y_pred[0][6]
         #Leye_y = y_pred[0][7]
         #nose_x = y_pred[0][20]
         #nose_y = y_pred[0][21]
+        c = np.sqrt((mouse_x - nose_x)**2+(mouse_y-nose_y)**2)
+        a = abs(mouse_x - nose_x)
+        b = mouse_y - nose_y
+        cosine_sita = b/c
+        sine_sita = a/c
         center_x = float(nose_x)
         center_y = float(nose_y)
         radius_x = 2*scale*abs(float(Leye_x)-center_x)
@@ -225,7 +237,8 @@ def nosefilter(img,Leye_x,Leye_y,nose_x,nose_y):
             max_b = img.shape[0]
         for y in range(int(min_b),int(max_b)):
             for x in range(int(min_a),int(max_a)):
-                if (x-center_x)**2/radius_x**2+(y-center_y)**2/radius_y**2<1:
+                if (x-center_x)**2*(cosine_sita**2/radius_x**2+sine_sita**2/radius_y**2)+(y-center_y)**2*(sine_sita**2/radius_x**2+cosine_sita**2/radius_y**2)+2*(cosine_sita*sine_sita/radius_x**2-sine_sita*cosine_sita/radius_y**2)*(x-center_x)*(y-center_y)<1:    
+                #if (x-center_x)**2/radius_x**2+(y-center_y)**2/radius_y**2<1:
                     img[y][x]=img[y][x]*0.95
                     #print("y=",y,"x=",x)
         scale = scale * 0.95
