@@ -29,7 +29,7 @@ def read_img():
     bboxes = np.array([min_x,min_y,max_x,max_y])
     np.save('/media/HDD/cvteam14/Mask_RCNN/image_shape.npy',face_image.shape[:2])
     np.save('/media/HDD/cvteam14/Mask_RCNN/bboxes.npy',bboxes)
-    #scipy.misc.toimage(face_image).save('face_image.png')
+    scipy.misc.toimage(face_image).save('face_image.png')
     
     path = '../face_image.png'
     img = Image.open(path)
