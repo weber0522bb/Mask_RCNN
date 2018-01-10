@@ -196,10 +196,10 @@ def display_instances(image, background, i, boxes, masks, class_ids, class_names
         background = background[0:height,0:width]
     else:
         background = np.array(background)/255    
-    #background = nosefilter(background,Leye_x,Leye_y,nose_x,nose_y)
-    #dbexpos_image = screen(masked_image,background)
-    #scipy.misc.toimage(background).save('background_filter.png')
-    #scipy.misc.toimage(dbexpos_image).save('dbexpos_image.png')
+    background = nosefilter(background,Leye_x,Leye_y,nose_x,nose_y,mouse_x,mouse_y)
+    dbexpos_image = screen(masked_image,background)
+    scipy.misc.toimage(background).save('background_filter.png')
+    scipy.misc.toimage(dbexpos_image).save('dbexpos_image.png')
 
 def screen(img_1,img_2):
     img_1 = img_1
