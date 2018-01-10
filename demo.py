@@ -77,7 +77,7 @@ print(id_person)
 # Visualize results
 r = results[0]
 #idx = r['class_ids'].tolist().index(1)
-idx = 1
+idx = 0
 print(idx)
 #print(r['rois'].shape)
 #print(r['masks'].shape)

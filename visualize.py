@@ -178,6 +178,7 @@ def display_instances(image, background, i, boxes, masks, class_ids, class_names
     nose_y = np.ceil(y_pred[21]*y_product+min_y)
     mouse_x = np.ceil(y_pred[26]*x_product+min_x)
     mouse_y = np.ceil(y_pred[27]*y_product+min_y)
+    print("face",Leye_x,Leye_y,nose_x,nose_y,mouse_x,mouse_y)
     #print(Leye_x,Leye_y,nose_x,nose_y,masked_image.shape[0],masked_image.shape[1])
 
     #predict.show_img(y_pred,face_image)
